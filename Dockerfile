@@ -7,11 +7,11 @@ ENV GO111MODULE=on \
     GOOS=linux \
     GOARCH=amd64
 
-COPY go.* ./
+RUN go get goa.design/goa/v3@v3.0.6
+RUN go get goa.design/goa/v3/f...@v3.0.6
 
+COPY go.* ./
 RUN go mod download
-RUN go get -u goa.design/goa/v3@v3.0.6
-RUN go get -u goa.design/goa/v3/...@v3.0.6
 
 COPY . .
 RUN ./scripts/goa_gen.sh
