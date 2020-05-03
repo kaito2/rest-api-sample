@@ -15,7 +15,6 @@ type echoServicesrvc struct {
 
 // NewEchoService returns the echo-service service implementation.
 func NewEchoService(logger *log.Logger) echoservice.Service {
-
 	return &echoServicesrvc{logger}
 }
 
