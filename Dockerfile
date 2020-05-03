@@ -8,7 +8,7 @@ ENV GO111MODULE=on \
     GOARCH=amd64
 
 RUN go get goa.design/goa/v3@v3.0.6
-RUN go get goa.design/goa/v3/f...@v3.0.6
+RUN go get goa.design/goa/v3/...@v3.0.6
 
 COPY go.* ./
 RUN go mod download
