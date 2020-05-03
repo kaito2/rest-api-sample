@@ -4,7 +4,7 @@ steps:
     args: ['golangci-lint', 'run']
   - id: go_test
     name: 'gcr.io/cloud-builders/go'
-    args: ['test', './...' '-cover']
+    args: ['test', './...', '-cover']
 
   - id: docker_build
     name: 'gcr.io/cloud-builders/docker'
