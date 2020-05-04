@@ -29,7 +29,7 @@ func (s *echoServicesrvc) EchoGet(ctx context.Context, p *echoservice.EchoGetPay
 			return nil
 		},
 	)
-	ctx, span := tracer.Start(ctx, "sample span")
+	_, span := tracer.Start(ctx, "sample span")
 	defer span.End()
 
 	s.logger.Info().Msg("echoService.echo-get")
