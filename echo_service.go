@@ -29,8 +29,10 @@ func NewEchoService(logger *log.Logger) echoservice.Service {
 // EchoGet implements echo-get.
 func (s *echoServicesrvc) EchoGet(ctx context.Context, p *echoservice.EchoGetPayload) (res string, err error) {
 	// Create custom span.
-	_, span := s.tracer.Start(ctx, "sample_span1")
+	ctx, span := s.tracer.Start(ctx, "sample_span1")
 	defer span.End()
+
+	s.sampleFunction(ctx)
 
 	s.logger.Info().Fields(map[string]interface{}{
 		"message": "message of sample span1",
