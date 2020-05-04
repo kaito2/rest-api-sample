@@ -36,7 +36,7 @@ func main() {
 		logLevel := zerolog.InfoLevel
 		zerolog.SetGlobalLevel(logLevel)
 		l := zerolog.New(os.Stdout).With().Str("service", echoservice.ServiceName).Logger()
-		logger = &log.Logger{&l}
+		logger = &log.Logger{Logger: &l}
 	}
 
 	// Initialize the services.

@@ -96,7 +96,7 @@ func handleHTTPServer(ctx context.Context, u *url.URL, echoServiceEndpoints *ech
 		ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
 		defer cancel()
 
-		srv.Shutdown(ctx)
+		srv.Shutdown(ctx)  // nolint
 	}()
 }
 
@@ -106,7 +106,7 @@ func handleHTTPServer(ctx context.Context, u *url.URL, echoServiceEndpoints *ech
 func errorHandler(logger *log.Logger) func(context.Context, http.ResponseWriter, error) {
 	return func(ctx context.Context, w http.ResponseWriter, err error) {
 		id := ctx.Value(middleware.RequestIDKey).(string)
-		w.Write([]byte("[" + id + "] encoding: " + err.Error()))
+		w.Write([]byte("[" + id + "] encoding: " + err.Error()))  // nolint
 		logger.Error().Str("id", id).Err(err).Send()
 	}
 }
