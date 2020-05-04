@@ -17,6 +17,15 @@ var _ = API("echo", func() {
 // Service describes a service
 var _ = Service("echo-service", func() {
 	Description("Echo your request")
+	// Check version of endpoint
+	Method("version", func() {
+		Result(String)
+		HTTP(func() {
+			GET("/version")
+			Response(StatusOK)
+		})
+	})
+
 	// Method describes a service method (endpoint)
 	Method("echo-get", func() {
 		// define request payload
