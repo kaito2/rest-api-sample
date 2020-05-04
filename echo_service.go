@@ -61,7 +61,7 @@ func (s *echoServicesrvc) EchoGet(ctx context.Context, p *echoservice.EchoGetPay
 	}).Send()
 
 	time.Sleep(300*time.Millisecond)
-	return "sample response", nil
+	return "sample response2", nil
 }
 
 func (s *echoServicesrvc) sampleFunction(ctx context.Context) {
