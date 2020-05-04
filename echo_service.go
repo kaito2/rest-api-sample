@@ -2,6 +2,7 @@ package echo
 
 import (
 	"context"
+	"fmt"
 	"go.opentelemetry.io/otel/api/global"
 
 	echoservice "github.com/kaito2/rest-api-sample/gen/echo_service"
@@ -26,6 +27,12 @@ func (s *echoServicesrvc) EchoGet(ctx context.Context, p *echoservice.EchoGetPay
 	_, span := tracer.Start(ctx, "sample span")
 	defer span.End()
 
-	s.logger.Info().Fields(map[string]interface{}{"message": "hoge", "severity": "warn"}).Send()
+	projectID := "kaito2"
+
+	s.logger.Info().Fields(map[string]interface{}{
+		"message": "hoge",
+		"severity": "warn",
+		"trace": fmt.Sprintf("projects/%s/traces/%s", projectID, span.SpanContext().SpanID),
+	}).Send()
 	return "sample response", nil
 }
