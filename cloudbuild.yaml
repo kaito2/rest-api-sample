@@ -5,6 +5,7 @@ steps:
   - id: go_test
     name: 'gcr.io/cloud-builders/go'
     args: ['test', './...', '-cover']
+    env: ['PROJECT_ROOT=github.com/kaito2/rest-api-sample']
 
   - id: docker_build
     name: 'gcr.io/cloud-builders/docker'
