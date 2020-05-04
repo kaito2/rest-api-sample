@@ -8,16 +8,12 @@ steps:
     env: ['PROJECT_ROOT=github.com/kaito2/rest-api-sample']
 
   - id: docker_build
-    name: 'gcr.io/cloud-builders/docker'
+    name: 'gcr.io/kaniko-project/executor'
     args: [
-      'build',
-      '-t', 'asia.gcr.io/$PROJECT_ID/rest-api-sample:$COMMIT_SHA',
-      '--cache-from', 'asia.gcr.io/$PROJECT_ID/rest-api-sample',
-      '.'
+      '--destination', 'asia.gcr.io/$PROJECT_ID/rest-api-sample:$COMMIT_SHA',
+      '--cache', 'true',
+      '--cache-ttl', '6h'
     ]
-  - id: docker_push
-    name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'asia.gcr.io/$PROJECT_ID/rest-api-sample:$COMMIT_SHA']
   - id: deploy_cloud_run
     name: 'gcr.io/cloud-builders/gcloud'
     args: [
