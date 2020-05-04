@@ -3,6 +3,7 @@ package echo
 import (
 	"context"
 	"fmt"
+	"github.com/pkg/errors"
 	"go.opentelemetry.io/otel/api/global"
 
 	echoservice "github.com/kaito2/rest-api-sample/gen/echo_service"
@@ -26,13 +27,17 @@ func (s *echoServicesrvc) EchoGet(ctx context.Context, p *echoservice.EchoGetPay
 	tracer := global.TraceProvider().Tracer("/echo-get")
 	_, span := tracer.Start(ctx, "sample span")
 	defer span.End()
+	spanIDBytes, err := span.SpanContext().SpanID.MarshalJSON()
+	if err != nil {
+		return "", errors.Wrap(err, "failed to MarshalJSON")
+	}
+	spanID := string(spanIDBytes)
 
 	projectID := "kaito2"
-
 	s.logger.Info().Fields(map[string]interface{}{
 		"message": "hoge",
 		"severity": "warn",
-		"trace": fmt.Sprintf("projects/%s/traces/%s", projectID, span.SpanContext().SpanID),
+		"trace": fmt.Sprintf("projects/%s/traces/%s", projectID, spanID),
 	}).Send()
 	return "sample response", nil
 }
