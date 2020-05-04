@@ -25,7 +25,7 @@ func (s *echoServicesrvc) EchoGet(ctx context.Context, p *echoservice.EchoGetPay
 	tracer := global.TraceProvider().Tracer("/echo-get")
 	_, span := tracer.Start(ctx, "sample span")
 	defer span.End()
-	
-	s.logger.Info().Fields(map[string]interface{}{"message": "hoge", "severity": "warn"})
+
+	s.logger.Info().Fields(map[string]interface{}{"message": "hoge", "severity": "warn"}).Send()
 	return "sample response", nil
 }
