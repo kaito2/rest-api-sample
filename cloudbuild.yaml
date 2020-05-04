@@ -25,7 +25,8 @@ steps:
       '--image', 'asia.gcr.io/$PROJECT_ID/rest-api-sample:$COMMIT_SHA',
       '--region', 'asia-northeast1',
       '--platform', 'managed',
-      '--allow-unauthenticated'
+      '--allow-unauthenticated',
+      '--update-env-vars', '_API_VERSION=$_API_VERSION'
     ]
 images:
   - 'asia.gcr.io/$PROJECT_ID/rest-api-sample'

@@ -3,27 +3,46 @@ package echo
 import (
 	"context"
 	"fmt"
+	"github.com/kelseyhightower/envconfig"
 	"go.opentelemetry.io/otel/api/global"
 	"go.opentelemetry.io/otel/api/trace"
+	"log"
 	"time"
 
 	echoservice "github.com/kaito2/rest-api-sample/gen/echo_service"
-	log "github.com/kaito2/rest-api-sample/gen/log"
+	genlog "github.com/kaito2/rest-api-sample/gen/log"
 )
 
 // echo-service service example implementation.
 // The example methods log the requests and return zero values.
 type echoServicesrvc struct {
 	tracer trace.Tracer
-	logger *log.Logger
+	logger *genlog.Logger
 	projectID string
+	apiVersion string
 }
 
 // NewEchoService returns the echo-service service implementation.
-func NewEchoService(logger *log.Logger) echoservice.Service {
-	projectID := "kaito2"
+func NewEchoService(logger *genlog.Logger) echoservice.Service {
+	// load env vars
+	var env EnvConfig
+	if err := envconfig.Process("", &env); err != nil {
+		log.Fatalf("failed to envconfig.Process: %v", err)
+	}
+
+	// set up Cloud Trace
 	tracer := global.TraceProvider().Tracer("/echo-get")
-	return &echoServicesrvc{logger: logger, tracer: tracer, projectID: projectID}
+
+	return &echoServicesrvc{
+		logger: logger,
+		tracer: tracer,
+		projectID: env.GCPProjectID,
+		apiVersion: env.APIVersion,
+	}
+}
+
+func (s *echoServicesrvc) Version(ctx context.Context) (res string, err error) {
+	return s.apiVersion, nil
 }
 
 // EchoGet implements echo-get.
