@@ -32,6 +32,7 @@ func (s *echoServicesrvc) EchoGet(ctx context.Context, p *echoservice.EchoGetPay
 		"message": "hoge",
 		"severity": "warn",
 		"trace": fmt.Sprintf("projects/%s/traces/%s", projectID, span.SpanContext().TraceIDString()),
+		"span_id": span.SpanContext().SpanIDString(),
 	}).Send()
 	return "sample response", nil
 }
