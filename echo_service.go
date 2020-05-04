@@ -31,8 +31,8 @@ func (s *echoServicesrvc) EchoGet(ctx context.Context, p *echoservice.EchoGetPay
 	s.logger.Info().Fields(map[string]interface{}{
 		"message": "hoge",
 		"severity": "warn",
-		"trace": fmt.Sprintf("projects/%s/traces/%s", projectID, span.SpanContext().TraceIDString()),
-		"span_id": span.SpanContext().SpanIDString(),
+		"logging.googleapis.com/trace": fmt.Sprintf("projects/%s/traces/%s", projectID, span.SpanContext().TraceIDString()),
+		"logging.googleapis.com/spanId": span.SpanContext().SpanIDString(),
 	}).Send()
 	return "sample response", nil
 }
