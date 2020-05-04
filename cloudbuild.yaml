@@ -10,9 +10,9 @@ steps:
   - id: docker_build
     name: 'gcr.io/kaniko-project/executor'
     args: [
-      '--destination', 'asia.gcr.io/$PROJECT_ID/rest-api-sample:$COMMIT_SHA',
-      '--cache', 'true',
-      '--cache-ttl', '6h'
+      '--destination=asia.gcr.io/$PROJECT_ID/rest-api-sample:$COMMIT_SHA',
+      '--cache=true',
+      '--cache-ttl=6h'
     ]
   - id: deploy_cloud_run
     name: 'gcr.io/cloud-builders/gcloud'
