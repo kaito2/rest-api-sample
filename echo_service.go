@@ -21,5 +21,5 @@ func NewEchoService(logger *log.Logger) echoservice.Service {
 // EchoGet implements echo-get.
 func (s *echoServicesrvc) EchoGet(ctx context.Context, p *echoservice.EchoGetPayload) (res string, err error) {
 	s.logger.Info().Msg("echoService.echo-get")
-	return
+	return "sample response", nil
 }
