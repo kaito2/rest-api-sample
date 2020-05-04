@@ -22,5 +22,5 @@ steps:
       '--region', 'asia-northeast1',
       '--platform', 'managed',
       '--allow-unauthenticated',
-      '--update-env-vars', '_API_VERSION=$_API_VERSION'
+      '--update-env-vars', '_API_VERSION=$_API_VERSION,GCP_PROJECT_ID=$PROJECT_ID'
     ]
