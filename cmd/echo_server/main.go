@@ -82,7 +82,7 @@ func main() {
 	projectID := os.Getenv("GOOGLE_CLOUD_PROJECT")
 	exporter, err := texporter.NewExporter(texporter.WithProjectID(projectID))
 	if err != nil {
-		logger.Fatal().Msgf("texporter.NewExporter: %v", err)
+		logger.Fatal().Msgf("texporter.NewExporter (project_id '%s'): %v", projectID, err)
 	}
 
 	// Create trace provider with the exporter.
