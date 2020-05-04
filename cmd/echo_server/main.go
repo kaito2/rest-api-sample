@@ -14,6 +14,10 @@ import (
 	echoservice "github.com/kaito2/rest-api-sample/gen/echo_service"
 	log "github.com/kaito2/rest-api-sample/gen/log"
 	"github.com/rs/zerolog"
+
+	texporter "github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace"
+	"go.opentelemetry.io/otel/api/global"
+	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 )
 
 func main() {
@@ -70,6 +74,30 @@ func main() {
 
 	var wg sync.WaitGroup
 	ctx, cancel := context.WithCancel(context.Background())
+
+	// Set up Cloud Trace
+	// More details: https://cloud.google.com/trace/docs/setup/go-ot
+
+	// Create exporter.
+	projectID := os.Getenv("GOOGLE_CLOUD_PROJECT")
+	exporter, err := texporter.NewExporter(texporter.WithProjectID(projectID))
+	if err != nil {
+		logger.Fatal().Msgf("texporter.NewExporter: %v", err)
+	}
+
+	// Create trace provider with the exporter.
+	//
+	// By default it uses AlwaysSample() which samples all traces.
+	// In a production environment or high QPS setup please use
+	// ProbabilitySampler set at the desired probability.
+	// Example:
+	//   config := sdktrace.Config{DefaultSampler:sdktrace.ProbabilitySampler(0.0001)}
+	//   tp, err := sdktrace.NewProvider(sdktrace.WithConfig(config), ...)
+	tp, err := sdktrace.NewProvider(sdktrace.WithSyncer(exporter))
+	if err != nil {
+		logger.Fatal().Err(err)
+	}
+	global.SetTraceProvider(tp)
 
 	// Start the servers and send errors (if any) to the error channel.
 	switch *hostF {
